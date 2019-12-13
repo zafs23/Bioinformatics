@@ -90,7 +90,7 @@
  
  Cache Implementation: 
  If Cache (consisting of TreeNodes) is implemented then the Cache is filled with TreeNodes instead of writing to the file. The 
- TreeNodes do have data consistency between Cache the disk file. At the end of the simulation before writing the BTree meta_data 
+ TreeNodes do not have data consistency between Cache the disk file. At the end of the simulation before writing the BTree meta_data 
  the cache is emptied and written to the file. Also, before deleting any TreeNode, it is written to the disk file.
  
   
