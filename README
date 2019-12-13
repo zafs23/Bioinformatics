@@ -1,0 +1,120 @@
+****************
+* Assignment #4
+* Class : CS 321 
+* Date : 12/13/2019
+* Name : Sajia Zafreen
+**************** 
+
+ ## OVERVIEW:
+ 
+ In this assignment, we solved a problem from the field of Bioinformatics using BTrees. The amount of data 
+ that we have to handle is large and any data structure is not likely to fit in memory. Hence a BTree is a good 
+ choice for the data structure. The GeneBank files DNA sequences. Each line has 60 characters (one of A, T, C, 
+ G, could be lower/upper case) until the end of sequence. If N is present, we ignored that sequence. For a 
+ given GeneBank file, the DNA sequence is converted into a BTree with each object being a DNA sequence of specified 
+ length k where k is between 1 and 31 inclusive. The DNA sequence from the GeneBank file is broken into sequences 
+ of length k each.
+ The biological motivation behind this project is to study the frequency of different length subsequences to see 
+ if they are random or that some sequences are more likely to be found in the DNA.
+ 
+ 
+ ## INCLUDED FILES:
+ 
+ * GeneBankCreateBTree.java - Source file
+ * GeneBankSearch.java - Source file
+ * TreeObject.java -Source file
+ * TreeNode.java - Source file
+ * BTree.java - Source file
+ * BTreeCache.java - Source file
+ * BinaryFormat.java - Source file
+ * README - this file
+ 
+ 
+ ## COMPILING AND RUNNING:
+ 
+ To create a BTree file from the DNA sequence first compile 
+ 
+ $ javac GeneBankCreateBTree.java
+ 
+ After compiling please run the complied file 
+ 
+ $ java GeneBankCreateBTree <0/1(no/with Cache)> <degree> <gbk file> <sequence length> [<cache size>] [<debug level>]
+ 
+ Here, cache size and debug level is optional.
+ Cache 0: No Cache will be implemented
+ Cache 1: Cache will be implemented. In this case, Cache Size must be given
+ Debug 0: Any diagnostic messages, help and status messages must be be printed on standard error stream.
+ Debug 1: The program writes a text file named dump, that has the line format: DNA string: frequency
+ The dump file contains DNA string (corresponding to the key stored) and frequency in an in-order traversal.
+ 
+ To search the BTree for a particular query compile the following file 
+ 
+ $ javac GeneBankSearch.java
+ 
+ After compiling please run the compiled file 
+ 
+ $ java GeneBankSearch <0/1(no/with Cache)> <btree file> <query file> [<cache size>] [<debug level>]
+ 
+ Here, cache size and debug level is optional.
+ Cache 0: No Cache will be implemented
+ Cache 1: Cache will be implemented. In this case, Cache Size must be given
+ Debug 0: The output of the queries should be printed on the standard output stream
+ Debug 1: The output of the queries should be printed on a Query_result file.
+ The data file of the BTree must be compatible with the query DNA sequence.
+ 
+  
+ ## PROGRAM DESIGN AND IMPORTANT CONCEPTS:
+ 
+ In this design memory is saved by converting DNA strings to base 4 number and then represent each base by a 2-bit binary number.
+ The design of the BTree is mentioned in the following:
+ 
+ File design :    BTree meta_data || node || node || node || ..... so on
+ 
+ BTree_MetaData : Root_Location(Integer) | Number_of_TreeNodes(Integer) | Degree_of_BTree (Integer) : 12 Byte
+ Node Sequence :  Node_MetaData | Keys | Child Pointers | Parent Pointer
+ Node_MetaData :  Leaf (Boolean) | Current_Number_of_Keys (Integer) | Node's Location in the file (Integer) : 7 Bytes
+ Node_Key :       DNA_Encoded_Sequence (Long) | Key_Frequency (Integer) | Key_Condition > NIL/DELETED/OCCUPIED (Integer) : 16 Byte each Node
+ Child Pointers:  Child_Location (Integer) | Child_Location (Integer) | Child_Location (Integer) | .... : 4 Byte each child pointer
+ Parent Pointer:  Parent_Location (Integer) : 4 Byte 
+ 
+ TreeObject Class: Consists of TreeObjects from the binary key object. Each Key has its own frequency and Key 
+                   condition (NIL/DELETED/OCCUPIED).
+ TreeNode Class:   Consists of TreeObjects, Child pointers, Parent Pointer. The TreeNode meta data has leaf or not value, current number
+                   of keys, and node's own location.
+ BTree Class:      Most of the functions are implemented in this class. The insert method for creating the BTree and the search method 
+                   for searching the BTree is written in this file as well. Also, the write and read methods are also written in this 
+                   class.
+              
+                   To improve the efficiency when writing a node to the file, first all the data are put in sequence in a byte buffer 
+                   then written the whole node in the file.
+ 
+ Cache Implementation: 
+ If Cache (consisting of TreeNodes) is implemented then the Cache is filled with TreeNodes instead of writing to the file. The 
+ TreeNodes do have data consistency between Cache the disk file. At the end of the simulation before writing the BTree meta_data 
+ the cache is emptied and written to the file. Also, before deleting any TreeNode, it is written to the disk file.
+ 
+  
+ ## DISCUSSION: 
+ 
+ File: test3.gbk
+ GeneBankCreateBTree: Runs without cache in 1.76 seconds. 
+                      Cache: If cache size is 100 it takes .60 seconds.
+                             If cache size is 500 it takes .47 seconds.
+ GeneBankSearch:      Runs without cache in .70 seconds.
+                      Cache: If Cache size is 100 it takes .45 seconds
+                             If Cache size is 500 it takes .46 seconds
+It seems that even though the cache size is different, as the query is same, the simulation takes almost the same time. 
+                             
+ File: test5.gbk
+ GeneBankCreateBTree: Runs without cache in 55 seconds. 
+                      Cache: If cache size is 100 it takes 4.06 seconds. 
+                             If cache size is 500 it takes 3.43 seconds.
+                             If cache size is 2000 it takes 3.67 seconds.
+  In these cases to make the cache effective optimal degree was used. The 2000 cache size supposed to take less than 3.43 seconds.
+  However, I think because of the overhead it can happen. Thus, cache implementation is complex because there are lots of other 
+  factors to consider as well. 
+ 
+                       
+                        
+ 
+ 
