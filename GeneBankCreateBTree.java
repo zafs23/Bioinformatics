@@ -192,7 +192,7 @@ public class GeneBankCreateBTree {
 	}
 
 	if (cacheSize > 0) {
-	    System.err.println("A BTree Cache is implemented.");
+	    System.err.println("A BTree Cache of size "+ cacheSize +" is implemented.");
 	}
 	try {
 	    inputStream = new FileInputStream(fileName);
