@@ -72,7 +72,7 @@
  
  BTree_MetaData : Root_Location(Integer) | Number_of_TreeNodes(Integer) | Degree_of_BTree (Integer) : 12 Byte
  Node Sequence :  Node_MetaData | Keys | Child Pointers | Parent Pointer
- Node_MetaData :  Leaf (Boolean) | Current_Number_of_Keys (Integer) | Node's Location in the file (Integer) : 7 Bytes
+ Node_MetaData :  Leaf (Boolean) | Current_Number_of_Keys (Integer) | Node's Location in the file (Integer) : 9 Bytes
  Node_Key :       DNA_Encoded_Sequence (Long) | Key_Frequency (Integer) | Key_Condition > NIL/DELETED/OCCUPIED (Integer) : 16 Byte each Node
  Child Pointers:  Child_Location (Integer) | Child_Location (Integer) | Child_Location (Integer) | .... : 4 Byte each child pointer
  Parent Pointer:  Parent_Location (Integer) : 4 Byte 
