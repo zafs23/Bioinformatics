@@ -276,10 +276,12 @@ public class BTree {
      */
     private void write_Node(TreeNode treeNode) {
 	if (cacheSize > 0) {
-	    if (bTreeCache.cacheFull()) {
-		disk_Write(bTreeCache.removeLastCache());
+	    if ((bTreeCache.removeContains(treeNode.getLocation())) != null) {
 		bTreeCache.addToFrontCache(treeNode);
 	    } else {
+		if (bTreeCache.cacheFull()) {
+		    disk_Write(bTreeCache.removeLastCache());
+		}
 		bTreeCache.addToFrontCache(treeNode);
 	    }
 	} else {
@@ -357,11 +359,14 @@ public class BTree {
     public TreeNode bTree_Read(int location) {
 	if (cacheSize > 0) {
 	    TreeNode readNode;
-	    if ((readNode = bTreeCache.getCacheNode(location)) != null) {
+	    if ((readNode = bTreeCache.removeContains(location)) != null) {
 		bTreeCache.addToFrontCache(readNode);
 		return readNode;
 	    } else {
 		readNode = disk_Read(location);
+		if (bTreeCache.cacheFull()) {
+		    disk_Write(bTreeCache.removeLastCache());
+		}
 		bTreeCache.addToFrontCache(readNode);
 		return readNode;
 	    }
@@ -522,6 +527,8 @@ public class BTree {
 	    for (TreeNode cacheNode : bTreeCache.getCacheLinkedList()) {
 		disk_Write(cacheNode);
 	    }
+
+	    bTreeCache.clearCache();
 	}
     }
 

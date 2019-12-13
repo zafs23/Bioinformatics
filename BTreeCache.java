@@ -1,4 +1,5 @@
 import java.util.Arrays;
+import java.util.Iterator;
 import java.util.LinkedList;
 
 /**
@@ -8,7 +9,7 @@ import java.util.LinkedList;
  *
  */
 
-public class BTreeCache {
+public class BTreeCache implements Iterable<TreeNode>{
 
     private LinkedList<TreeNode> cacheLinkedList;
     private int size;
@@ -114,7 +115,6 @@ public class BTreeCache {
      */
     public int cacheSize() {
 	return cacheLinkedList.size();
-
     }
 
     /**
@@ -131,23 +131,33 @@ public class BTreeCache {
 	}
 	return null;
     }
-
-//	/**
-//	 * 
-//	 * @param location
-//	 * @return
-//	 */
-//	public TreeNode contains(int location) {
-//		for (TreeNode cacheNode : cacheLinkedList) {
-//			if (cacheNode.getLocation() == location) {
-//				return cacheNode;
-//			}
-//		}
-//		return null;
-//	}
+    
+    /**
+     * Removes the node with location , if the list doesn't have it returns null.
+     * @param location is the location of the tree node to be removed
+     * @return the node removed
+     */
+    public TreeNode removeContains(int location) {
+        TreeNode returnNode = null;
+        TreeNode currNode;
+        for (Iterator<TreeNode> it = this.iterator(); it.hasNext();) {
+            currNode = it.next();
+            if (currNode.getLocation() == location) {
+                returnNode = currNode;
+                it.remove();
+                break;
+            }
+        }
+        return returnNode;
+    }
 
     @Override
     public String toString() {
 	return Arrays.deepToString(cacheLinkedList.toArray());
+    }
+    
+    @Override
+    public Iterator<TreeNode> iterator(){
+        return cacheLinkedList.iterator();
     }
 }
