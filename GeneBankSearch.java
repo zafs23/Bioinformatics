@@ -34,14 +34,23 @@ public class GeneBankSearch {
 	    cache = Integer.parseInt(args[0]);
 	    bTreeFile = args[1].toString();
 	    queryFile = args[2].toString();
-	    if (args.length == 4) {
-		if (cache == 0) {
+	    if (args.length >= 3 && args.length < 5) {
+		if (cache == 0 && args.length == 4) {
 		    debug = Integer.parseInt(args[3]);
-		} else if (cache == 1) {
+		    if (debug < 0 || debug > 1) {
+			System.err.println("Debug level can be only 0 or 1");
+			printUsage();
+			System.exit(1);
+		    }
+		} else if (cache == 1 && args.length == 4) {
 		    cacheSize = Integer.parseInt(args[3]);
-		} else {
-		    System.err.println(
-			    "If Cache is 0, then debug level must be given or If Cache is 1, then CacheSize must be given.");
+		    if (cacheSize <= 1) {
+			System.err.println("If Cache can't be negative , 0 or 1");
+			printUsage();
+			System.exit(1);
+		    }
+		} else if (cache == 1 && args.length == 3) {
+		    System.err.println("If Cache is 1, then CacheSize must be given.");
 		    printUsage();
 		    System.exit(1);
 		}
@@ -49,8 +58,13 @@ public class GeneBankSearch {
 		if (cache == 1) {
 		    cacheSize = Integer.parseInt(args[3]);
 		    debug = Integer.parseInt(args[4]);
+		    if (debug < 0 || debug > 1) {
+			System.err.println("Debug level can be only 0 or 1");
+			printUsage();
+			System.exit(1);
+		    }
 		} else {
-		    System.err.println("If Cache is 0 no Cache, if cache is 1 CacheSize must be given.");
+		    System.err.println("If Cache is 0 no Cache, if cache is 1 Cache Size must be given.");
 		    printUsage();
 		    System.exit(1);
 		}
@@ -89,7 +103,7 @@ public class GeneBankSearch {
     }
 
     /**
-     * Prints the usage of this GeneBankSearch command.
+     * Prints the usage of this GeneBankSearch.
      */
     private static void printUsage() {
 	System.err.println(

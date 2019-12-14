@@ -81,6 +81,7 @@ public class TreeObject implements Comparable<TreeObject> {
     public void setKeyCondition(int keyCondition) {
 	this.keyCondition = keyCondition;
     }
+    
 
     @Override
     public String toString() {

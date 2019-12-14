@@ -477,7 +477,7 @@ public class BTree {
 
     /**
      * Calculated the general node length of each node including the metadata of the
-     * BTree
+     * tree node
      * 
      * @return
      */

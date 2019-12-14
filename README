@@ -7,8 +7,8 @@
 
  ## OVERVIEW:
  
- In this assignment, we solved a problem from the field of Bioinformatics using BTrees. The amount of data 
- that we have to handle is large and any data structure is not likely to fit in memory. Hence a BTree is a good 
+ In this assignment, a problem has been from the field of Bioinformatics using BTrees. The amount of data 
+ that is handled in this simulation is large and any data structure is not likely to fit in memory. Hence a BTree is a good 
  choice for the data structure. The GeneBank files DNA sequences. Each line has 60 characters (one of A, T, C, 
  G, could be lower/upper case) until the end of sequence. If N is present, we ignored that sequence. For a 
  given GeneBank file, the DNA sequence is converted into a BTree with each object being a DNA sequence of specified 
@@ -69,6 +69,7 @@
  The design of the BTree is mentioned in the following:
  
  File design :    BTree meta_data || node || node || node || ..... so on
+                  The nodes are printed in the order they were created.
  
  BTree_MetaData : Root_Location(Integer) | Number_of_TreeNodes(Integer) | Degree_of_BTree (Integer) : 12 Byte
  Node Sequence :  Node_MetaData | Keys | Child Pointers | Parent Pointer
@@ -90,8 +91,8 @@
  
  Cache Implementation: 
  If Cache (consisting of TreeNodes) is implemented then the Cache is filled with TreeNodes instead of writing to the file. The 
- TreeNodes do not have data consistency between Cache the disk file. At the end of the simulation before writing the BTree meta_data 
- the cache is emptied and written to the file. Also, before deleting any TreeNode, it is written to the disk file.
+ TreeNodes do not have data consistency between Cache and the disk file. At the end of the simulation before writing the BTree 
+ meta_data the cache is emptied and written to the file. Also, before deleting any TreeNode, it is written to the disk file.
  
   
  ## DISCUSSION: 
@@ -103,14 +104,14 @@
  GeneBankSearch:      Runs without cache in .70 seconds.
                       Cache: If Cache size is 100 it takes .45 seconds
                              If Cache size is 500 it takes .46 seconds
-It seems that even though the cache size is different, as the query is same, the simulation takes almost the same time. 
+ It seems that even though the cache size is different, as the query is same, the simulation takes almost the same time. 
                              
  File: test5.gbk
  GeneBankCreateBTree: Runs without cache in 55 seconds. 
                       Cache: If cache size is 100 it takes 4.06 seconds. 
                              If cache size is 500 it takes 3.43 seconds.
                              If cache size is 2000 it takes 3.67 seconds.
-  In these cases to make the cache effective optimal degree was used. The 2000 cache size supposed to take less than 3.43 seconds.
+  In these cases, to make the cache effective optimal degree was used. The 2000 cache size supposed to take less than 3.43 seconds.
   However, I think because of the overhead it can happen. Thus, cache implementation is complex because there are lots of other 
   factors to consider as well. 
  
