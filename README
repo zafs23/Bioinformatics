@@ -7,7 +7,7 @@
 
  ## OVERVIEW:
  
- In this assignment, a problem has been from the field of Bioinformatics using BTrees. The amount of data 
+ In this assignment, a problem has been solved from the field of Bioinformatics using BTrees. The amount of data 
  that is handled in this simulation is large and any data structure is not likely to fit in memory. Hence a BTree is a good 
  choice for the data structure. The GeneBank files DNA sequences. Each line has 60 characters (one of A, T, C, 
  G, could be lower/upper case) until the end of sequence. If N is present, we ignored that sequence. For a 
